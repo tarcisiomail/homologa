@@ -1,0 +1,4 @@
+streamlit==1.14.0
+pandas==1.5.1
+docxtpl==0.16.4
+num2words==0.5.12

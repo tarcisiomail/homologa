@@ -1,7 +1,6 @@
 import locale
 import random
 
-locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
 from datetime import datetime
 from docxtpl import DocxTemplate
 import streamlit as st

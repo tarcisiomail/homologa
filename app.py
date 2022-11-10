@@ -81,8 +81,8 @@ with st.form(key="1"):
 def item_description (item_id, item_descricao, item_quantidade, item_unidade, item_value, item_full_value):
     valor_total = item_quantidade * item_value
     valor_total_full = numero_por_extenso(valor_total)
-    return str(f"{item_id} - {item_descricao}\nQUANTIDADE: {('%.0f' % item_quantidade)} ({item_unidade})\n/"
-                f"VALOR UNITÁRIO: R${('%.2f' % item_value).replace('.',',')}\nVALOR TOTAL DO {item_id} ............... R$/"
+    return str(f"{item_id} - {item_descricao}\nQUANTIDADE: {('%.0f' % item_quantidade)} ({item_unidade})\n"
+                f"VALOR UNITÁRIO: R${('%.2f' % item_value).replace('.',',')}\nVALOR TOTAL DO {item_id} ............... R$"
                 f"{('%.2f' % valor_total).replace('.',',')} ({(valor_total_full).replace('.','')}).\n")
 
 

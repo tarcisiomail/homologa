@@ -32,12 +32,12 @@ def numero_por_extenso(numero):
         if numero%1 == 0:
             num_ptbr = num2words(Decimal(numero), lang='pt_BR')
             valor_extenso = (num_ptbr + ' reais.').capitalize()
-            return valor_extenso
+            return (valor_extenso).replace("Mil,","Mil")
 
         elif (numero%1 > 0) and (numero%1 < 0.02):
             num_ptbr = num2words(Decimal(numero // 1), lang='pt_BR')
             valor_extenso = (num_ptbr + ' reais e um centavo.').capitalize()
-            return valor_extenso
+            return (valor_extenso).replace("Mil,","Mil")
 
         else:
 
@@ -46,7 +46,7 @@ def numero_por_extenso(numero):
             num_dec_extenso = num2words(Decimal(num), lang='pt_BR')
             valor_extenso = ((num_int_extenso + ' reais e ' + num_dec_extenso + ' centavos.')\
                 .replace('zero vírgula','').replace('  ', ' ').capitalize())
-            return valor_extenso
+            return valor_extenso.replace("Mil,","Mil")
 
     elif (1000000 <= numero < 1000001):
         if numero == 1000000:
@@ -70,6 +70,4 @@ def numero_por_extenso(numero):
             valor_extenso = 'Um milhão e um reais e ' + num_dec_extenso + ' centavos.'
             return valor_extenso
 
-
-calc = numero_por_extenso(175)
-print(calc)
+print(numero_por_extenso(10.15))

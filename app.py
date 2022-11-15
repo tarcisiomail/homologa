@@ -151,14 +151,16 @@ for z in range(len(st.session_state.new_row)):
                    + st.session_state.new_row.loc[z, 'Item Descricao'] + 'index:' + str(z))
 col3, col4 = st.columns(2)
 with col3:
+
     select_reg = st.selectbox("Selecione um registro para removê-lo:", options)
+    remover = st.button("Remover registro")
     if select_reg != '...' and remover:
         removido = select_reg
         select_reg_titulo = int(select_reg.split(sep=':')[1].lstrip())
         st.session_state.new_row.drop(index=select_reg_titulo, inplace=True)
         st.session_state.new_row.sort_values(by=['Lote ID', 'Item ID'], inplace=True)
         st.session_state.new_row.reset_index(drop=True, inplace=True)
-    remover = st.button("Remover registro")
+
 with col4:
     st.empty()
 

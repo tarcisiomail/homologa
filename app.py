@@ -110,11 +110,59 @@ if numero_lotes > 1:
                                'Valor por extenso': item_full_value}, index=[len(st.session_state.new_row)])
 
         if btn_form:
-            st.session_state.new_row = pd.concat([st.session_state.new_row, df_new], axis=0)
-            df_new.drop(df_new.tail(1).index, inplace=True)
-            df_new = pd.concat([st.session_state.new_row, df_new], axis=0)
 
-            st.dataframe(df_new)
+            df_check = st.session_state.new_row[(st.session_state.new_row['Lote ID'] == lote_id) &
+                                                (st.session_state.new_row['Item ID'] == item_id)]
+            if len(df_check) > 0:
+                for c in range (len(st.session_state.new_row)):
+                    if (st.session_state.new_row['Lote ID'][c] == lote_id) & \
+                            (st.session_state.new_row['Item ID'][c] == item_id):
+                        st.session_state.new_row.drop(index=c, inplace=True)
+                        st.session_state.new_row.sort_values(by=['Lote ID', 'Item ID'], inplace=True)
+                        st.session_state.new_row.reset_index(drop=True, inplace=True)
+                        st.session_state.new_row = pd.concat([st.session_state.new_row, df_new], axis=0)
+                        st.write(st.session_state.new_row)
+                        st.write(df_new)
+                        break
+            else:
+                st.session_state.new_row = pd.concat([st.session_state.new_row, df_new], axis=0)
+                df_new.drop(df_new.tail(1).index, inplace=True)
+                df_new = pd.concat([st.session_state.new_row, df_new], axis=0)
+                df_new.sort_values(by=['Lote ID', 'Item ID'], inplace=True)
+                df_new.reset_index(drop=True, inplace=True)
+
+
+
+            st.session_state.new_row.reset_index(drop=True, inplace=True)
+            st.session_state.new_row.sort_values(by=['Lote ID', 'Item ID'], inplace=True)
+            st.write(df_check)
+            st.write(st.session_state.new_row)
+            st.write(df_new)
+
+
+
+
+            #st.dataframe(df_new)
+options = list()
+options.append('...')
+for z in range(len(st.session_state.new_row)):
+    options.append(st.session_state.new_row.loc[z, 'Lote ID'] + ' - '
+                   + st.session_state.new_row.loc[z, 'Item ID'] + ' - '
+                   + st.session_state.new_row.loc[z, 'Item Descricao'] + 'index:' + str(z))
+col3, col4 = st.columns(2)
+with col3:
+    select_reg = st.selectbox("Selecione um registro para removê-lo:", options)
+    if select_reg != '...' and remover:
+        removido = select_reg
+        select_reg_titulo = int(select_reg.split(sep=':')[1].lstrip())
+        st.session_state.new_row.drop(index=select_reg_titulo, inplace=True)
+        st.session_state.new_row.sort_values(by=['Lote ID', 'Item ID'], inplace=True)
+        st.session_state.new_row.reset_index(drop=True, inplace=True)
+    remover = st.button("Remover registro")
+with col4:
+    st.empty()
+
+
 
 finaliza = st.button("Acabou?")
 if finaliza:
@@ -122,6 +170,7 @@ if finaliza:
     df_new.drop(df_new.tail(1).index, inplace=True)
     df_new.sort_values(by=['Lote ID', 'Item ID']).reset_index(drop=True)
     st.dataframe(df_new)
+    st.dataframe(st.session_state.new_row)
     # st.write(df_new.loc[len(df_new)-1,'Valor do Item'])
     # st.dataframe(df_new.loc['2'].at['Valor do Item'])
     list_dfs = []
@@ -135,12 +184,8 @@ if finaliza:
     list_total_lote = {}
     #for z in range(len(lotes)):
     #    st.dataframe(list_dfs[z])
-    st.write(list_dfs[0].loc[0, 'Item ID'])
-    st.write(list_dfs[1].loc[0, 'Item ID'])
-    st.write(list_dfs[1].loc[1, 'Item ID'])
-    st.write(list_dfs[2].loc[0, 'Item ID'])
-    st.write(list_dfs[2].loc[1, 'Item ID'])
-    st.write(list_dfs[2].loc[2, 'Item ID'])
+    #st.write(list_dfs[0].loc[0, 'Item ID'])
+
 
     for x in range(len(lotes)):
         lote_atual = 'lote' + str(x)

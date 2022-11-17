@@ -193,8 +193,9 @@ if finaliza:
         lote_atual = 'lote' + str(x)
         list_lote['lote{0}'.format(x)] = (str(lotes[x]))
 
-        total_lote = (list_dfs[x]['Item Quantidade'] * list_dfs[x]['Valor do Item']).sum()
-        list_total_lote['total_lote{0}'.format(x)] = str(f'\nTOTAL DO {lotes[x]} .... R${total_lote} '
+        total_lote = round((list_dfs[x]['Item Quantidade'] * list_dfs[x]['Valor do Item']).sum(),2)
+        total_lote_money = Money(amount=total_lote, currency='BRL').format('pt_BR')
+        list_total_lote['total_lote{0}'.format(x)] = str(f'\nTOTAL DO {lotes[x]} .... R${total_lote_money} '
                                                          f'({numero_por_extenso(total_lote)}).')
 
         for i in range(len(list_dfs[x])):
